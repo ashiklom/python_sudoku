@@ -2,14 +2,20 @@
 Methods for solving Sudoku grids.
 """
 
+from sudoku_basic import *
+
+
 class FailedFirstPass(Exception):
     pass
+
 
 class FailedSecondPass(Exception):
     pass
 
+
 class FailedThirdPass(Exception):
     pass
+
 
 def fill_onepos(grid):
     """
@@ -17,7 +23,6 @@ def fill_onepos(grid):
 
     Args:
         grid: Integer nested list representing Sudoku grid.
-        ?? possibles: Dictionary of cell possibilities (from 'all_possibles')
 
     Returns:
         Updated grid (nested list of integers and 'None' values) 
@@ -35,9 +40,32 @@ def fill_onepos(grid):
             fill_counter += 1
             length_counter = len(possibles)
 #    pp(all_possibles(grid))
-    if fill_counter == 0 and len(possibles) > 0:
+    if fill_counter == 0 and length_counter > 0:
         raise FailedFirstPass("No single-possibility cells remaining. Try another method.")
     return grid
+
+
+def fill_onlyplace(grid):
+    """Fills cells that are the only possible place for \
+            a particular value.
+
+    Args:
+
+        grid: Integer nested list representing Sudoku grid.
+    Returns:
+        Updated grid (nested list of integers and 'None' values)
+
+    Raises:
+        FailedSecondPass: If no cells can be filled via this method.
+    """
+
+    fill_counter = 0
+    while fill_counter == 0:
+        for rownum, row in enumerate(grid):
+            missing = get_missing(row)
+            blanks = find_blanks(row)
+            possibles_in_row = [get_possibles(grid, rownum, col_num) for col_num in blanks]
+            #TODO: Find unique occurence of a value in 'missing' in above and fill by index
 
 
 

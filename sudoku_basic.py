@@ -65,7 +65,7 @@ def get_box(grid, row, col):
     bcol = col // 3
     row_start, row_end = brow * 3, (brow + 1) * 3
     col_start, col_end = bcol * 3, (bcol + 1) * 3
-    box = [i for boxrow in grid[row_start:row_end] for i in boxrow[col_start:col_end] ]
+    box = [i for boxrow in grid[row_start:row_end] for i in boxrow[col_start:col_end]]
     return box
 
 
@@ -82,7 +82,7 @@ def get_possibles(grid, row_num, col_num):
             List of possible values for cell.
     """
 
-    allvals = set(range(1,10))
+    allvals = set(range(1, 10))
     cellrow = set(get_row(grid, row_num))
     cellcol = set(get_column(grid, col_num))
     cellbox = set(get_box(grid, row_num, col_num))
@@ -125,6 +125,23 @@ def get_missing(numlist):
         List of ints missing from given section.
     """
     
-    allvals = set(range(1:10))
+    allvals = set(range(1, 10))
     missing = list(allvals - set(numlist))
     return missing
+
+def find_blanks(numlist):
+    """Retreive indices of all blank cells in row, column, or box.
+
+    Args:
+        numlist: A list of ints and Nones as produced by the get_row, etc. \
+                functions.
+
+    Returns:
+        List of indices of blank cells from given section.
+    """
+    blanks = []
+    for ind, val in enumerate(numlist):
+        if val == None:
+            blanks.append(ind)
+
+    return blanks
