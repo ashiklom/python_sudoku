@@ -53,7 +53,7 @@ def get_box(grid, row, col):
     """Extract box by row-column location of cell.
     
     Args:
-        grid: Integer nested list reprenting Sudoku grid.
+        grid: Integer nested list representing Sudoku grid.
         row: Row number of cell.
         col: Column number of cell.
         
@@ -67,6 +67,28 @@ def get_box(grid, row, col):
     col_start, col_end = bcol * 3, (bcol + 1) * 3
     box = [i for boxrow in grid[row_start:row_end] for i in boxrow[col_start:col_end]]
     return box
+
+
+def box_ref(ind, box_row, box_col):
+    """Retrieve absolute grid index (as tuple) of a cell from its \
+            box position.
+
+    Args:
+        ind: Index of cell within box list
+        box_row: Starting row of box (coerced to 0, 3, or 6)
+        box_col: Starting column of box (coerced to 0, 3, or 6)
+
+    Returns:
+        Tuple of row, column indices for the specified cell.
+
+    """
+    box_row = box_row // 3 * 3
+    box_col = box_col // 3 * 3
+    relative_row = ind // 3
+    relative_col = ind % 3
+    absolute_row = relative_row + box_row
+    absolute_col = relative_col + box_col
+    return absolute_row, absolute_col
 
 
 def get_possibles(grid, row_num, col_num):
@@ -124,10 +146,11 @@ def get_missing(numlist):
     Returns:
         List of ints missing from given section.
     """
-    
+
     allvals = set(range(1, 10))
     missing = list(allvals - set(numlist))
     return missing
+
 
 def find_blanks(numlist):
     """Retreive indices of all blank cells in row, column, or box.
