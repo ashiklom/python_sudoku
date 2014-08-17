@@ -91,50 +91,6 @@ def box_ref(ind, box_row, box_col):
     return absolute_row, absolute_col
 
 
-def get_possibles(grid, row_num, col_num):
-    """
-    For cell in specified row and column, test if occupied. If unoccupied, \
-            return list of possible values.
-
-        Args:
-            row_num: Row number (0-8) of cell.
-            col_num: Column number (0-8) of cell.
-
-        Returns:
-            List of possible values for cell.
-    """
-
-    allvals = set(range(1, 10))
-    cellrow = set(get_row(grid, row_num))
-    cellcol = set(get_column(grid, col_num))
-    cellbox = set(get_box(grid, row_num, col_num))
-    possibles = list(allvals - cellrow - cellcol - cellbox)
-    possibles.sort()
-    return possibles
-
-
-def all_possibles(grid):
-    """
-    Returns dictionary containing indices tuple (key) and possibility list (value) \
-            of all blank cells in a Sudoku grid.
-
-    Args:
-        grid: Integer nested list representing Sudoku grid.
-
-    Returns:
-        Dictionary with keys as indices and possibility list as values for all blank \
-                cells.
-    """
-    all_possibles = {}
-
-    for row_num, row in enumerate(grid):
-        for col_num, cell in enumerate(row):
-            if not cell:
-                all_possibles[row_num, col_num] = get_possibles(grid, row_num, col_num)
-
-    return all_possibles
-
-
 def get_missing(numlist):
     """
     Retreive list of missing values from a row, column, or box.
